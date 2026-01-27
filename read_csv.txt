@@ -1,0 +1,10 @@
+Important Interview Question:
+How many jobs are created when we specify the schema
+During data read? just one, because Spark already knows the metadata through the schema. If we do not specify
+The schema, multiple jobs will be created to read the schema ... 
+InferSchema, read a couple of records from files to identify the schema 
+
+Handle bad records: there are 3 modes 
+Permissive (default) > _corrupt_records column 
+Dropmalformed
+Failfast

@@ -1,0 +1,143 @@
+isNull(): The function isNull() returns all the rows where certain columns on which we apply
+this function contains Null values
+
+df.filter(df.Mark.isNull())
+
+df.filter(df.Mark.isNotNul())
+
+#Create Sample Dataframe
+
+data_student = [("Michael","Science",80,"P",90),
+("Nancy","Mathematics",90,"P", None),
+("David", "English", 20,"F",80),
+("John", "Science", None, "F", None),
+("Blessy",None,30,"F",50),
+("Martin", "Mathematics", None, None, 70) ]
+
+Schema I ["name", "Subject", "Mark", "Status", "Attendance"]
+df = spark.createDataFrame(data = data_student, schema = Schema)
+display(df)
+
+
+Filter all records with Null Value (3 WAYS)
+
+
+display(df.filter(df.Mark.isNull()))
+
+#display(df.filter ("Mark IS NULL"))
+
+# from pyspark.sql. functions import col
+# display(df.filter(col("Mark").isNull()))
+
+
+Filter all records without Null Value
+
+
+# display(df.filter(df.Mark.isNotNull()))
+
+display(df.filter((df.Mark.isNotNull()) & (df.Attendance. isNotNull())
+
+
+------------------------Fill value for Nulls
+
+Syntax: na.drop() : Drops the rows if any or all columns contain Null value
+
+df1 = df.na.drop("Parameter")
+Parameter: "any", "all", "subset=["Column1, Column2 ... "]"
+
+Alternate Syntax: df1 = df.dropna("Parameter")
+
+
+df.na.fill(value=0)
+
+Syntax: df1 = df.na.fill(value ="Dummy value", subset=["Column"])
+
+Alternate Syntax: df1 =df.fillna("Parameter")
+
+na.fill()
+
+
+Create Sample Dataframe
+
+
+
+data_student = [("Michael","Science",80,"P",90),
+("Nancy", "Mathematics",90,"P", None),
+("David","English",20,"F",80),
+("John","Science", None, "F", None),
+("Martin", "Mathematics",None, None, 70),
+(None, None, None, None, None) ]
+
+Schema = ["name", "Subject", "Mark", "Status", "Attendance"]
+df = spark.createDataFrame(data = data_student, schema = Schema)
+display(df)
+
+
+Drop the records with Null Value - ALL & ANY
+
+display(df.na.drop())
+
+#display(df.dropna("any"))
+
+
+Drop the records with Null Value on selected column:
+
+
+display(df.na.drop(subset=["Mark","Attendance"])) # it could be combination of column
+
+
+Fill value for all columns if Null is present
+
+
+
+display(df.na.fill(value=e))
+
+#display(df.na.fill(value="NA"))
+
+#display(df.fillna(value=0))
+
+
+
+Fill value for specific columns if contains null
+
+
+
+display(df.na.fill(value=0,subset=["Mark","Attendance"]))
+
+#display(df.na.fill({"Mark": 0, "Status": "NA", "Name": "No_name", "Subject": "English", "Attendance": 50}))
+
+
+
+Create Sample Dataframe
+
+data_student = [("Michael","Science",80,"P",90),
+("Nancy", "Mathematics",90,"P", None),
+("David", "English", 20, "F",80),
+("John", "Science", None, "F", None),
+("Martin","Mathematics", None, None, 70),
+(None, None, None, None, None) ]
+
+Schema = ["name", "Subject", "Mark", "Status", "Attendance"]
+df = spark.createDataFrame(data = data_student, schema = Schema)
+display(df)
+
+
+Fill value for all columns if Null is present
+
+
+display(df.na.fill(value=|'NA"))
+
+#display(df.na.fill(value="NA"))
+
+#display(df.fillna(value=0))
+
+
+Fill value for specific columns if contains null
+
+
+
+display(df.na.fill(value=0,subset=["Mark","Attendance"]) ) I
+
+#display(df.na.fill({"Mark": 0, "Status": "NA", "Name": "No_name", "Subject": "English", "Attendance": 50}))
+
+

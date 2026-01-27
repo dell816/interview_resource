@@ -1,0 +1,39 @@
+COPY INTO command in Databricks, 
+
+a SQL utility used for ingesting data into a Delta Lakehouse. 
+The command is highlighted for its ability to load various file formats, its retriable and idempotent nature,ensuring "exactly once" processing of data files (0:42).
+
+The video demonstrates how to:
+
+Create placeholder tables: Tables without a predefined schema, where the schema is inferred during the data loading process.
+Load data using COPY INTO (4:11): It shows how to specify the source location, file format (e.g., CSV), and options like
+merge schema and header for both source and target.
+
+Maintain metadata for idempotency (7:37): The COPY INTO command maintains a copy_into_log within the Delta log to prevent duplicate data ingestion
+when the command is rerun.
+
+Transform data during loading (9:33): how to use a SELECT statement within the COPY INTO command to select specific columns, 
+cast data types, or add custom columns like insert date.
+
+Process data incrementally (13:07): The COPY INTO command only processes new files, ensuring efficient incremental loading.
+The video concludes by mentioning that while COPY INTO is suitable for thousands of files,
+Autoloaders are recommended for millions of files or complex directory structures (14:08).
+
+
+
+-- Use COPY INTO to load data into place holder table
+
+--Assume that we have two csv files (2025-12-21.csv + 2025-12-22.csv) in volume, we want to read and create delta table in adls. 
+
+COPY INTO dev.bronze.invoice_cp
+FROM "/Volumes/dev/bronze/landing/input"
+FILEFORMAT = CSV
+PATTERN = ' *. csv'
+FORMAT_OPTIONS (
+'mergeSchema' = 'true',
+'header' = 'true'
+)
+COPY_OPTIONS (
+'mergeSchema' = 'true'
+
+);

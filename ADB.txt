@@ -1,0 +1,84 @@
+dbutils.fs.ls("file:/") > all directories that are available within our local file system, storage
+dbutils.fs.ls("/") > these are all the things are available in dbfs system
+dbutils.fs.ls("abfss:/") > ADLS storage...		
+
+
+What is the difference between CTAS and the Deep Clone of Delta Table in Databricks?
+how is it different from ctas and
+Deep clone does the same thing but in
+case of Delta tables deep clone is the
+much easier option, but in case of CTAS
+there's a risk of losing metadata so
+There might be some chance that some
+metadata information like nullability
+partition information might get lost
+when you are doing a ctas right but in
+case of deep clone you don't have to
+worry about metadata at all just make a
+deep clone and the table would be exact
+replica of the source table 
+
+
+-- Merge data to update existing records and insert new records
+MERGE INTO dev.bronze.emp e
+USING dev.bronze.emp_updates u
+ON e.emp_id = u.emp_id
+WHEN MATCHED THEN
+UPDATE SET
+e.salary = u.salary
+WHEN NOT MATCHED THEN
+INSERT *
+WHEN NOT MATCHED BY SOURCE THEN
+DELETE
+
+
+Steps for Metastore creation in the unity catalog:
+1- Goto ADB under the Workspaces select 'Catalog'
+2- click on Create metastore button : 
+Name : it is better to specify the name related to the region e.g. azure-central-US
+ADLS Gen2 path(it is optional, but it's good practice to provide ADLS path of a storage account where 
+we're going to store our data for this metastore) so we will goto our Azure portal > Storage accounts >
+Create > Fill all info click the Next-Advanced tab (Check Enable hierarchical namespace - gen2) next next...
+3- Goto Resource group again and find the storage account that has been already created > click on Storage browser in 
+right menu > blob container> Add container: name:root , click root > Add Directory: name: metastore (so all the data
+from the metastore would be saved here) 
+4-now, in order to provide Databricks access to this storage account
+we need to create a connector so search for Access Connector for Azure Databricks and create new one.
+5- we need to give this connector permission to connect with this storage account : goto storage account
+> click on Access Control (IAM) - we need to assign the role - click on Add role assignment and search for
+storage blob data contributor > next > select 'Managed identity' + select members : Managed identity > Access Connector for Azure Databricks
+and select the    adb-uc-connector > review and assign 
+6- go to step2 > ADLS Gen2 path : root@adbeeasewithdata.core.windows.net/metastore
+	Access Connector Id: goto resource group again and click on Access connector for Azure Databricks and open the 
+	adb-us-connector: copy the resource id and back and paste here and create. 
+7- it shows in 2 Assign to workspace : check the workspace in the list below and click Assign
+8- go to workspace in ADB and see the Metastore has been attached
+9- refresh your workspace tab browser. you can click + and add a catalog 
+
+
+- The one difference between managed tables in Unity Catalog and legacy hive metastore is: If you drop a managed table in 
+Unity, the delta files won't be removed at the Delta Lake location, which means 7 days of retention:
+
+Use Catalog DEV;
+
+Show Tables Dropped in Bronze (Schema) 
+
+With UNDROP feature supports recovering dropped tables within a 7-day retention period.
+
+UNDROP TABLE DEV.Bronze.Sale_Managed;
+
+UNDROP TABLE WITH ID '3f10a04c-d646-4f8f-b3be-c4da00bbee2d';
+
+-- List Schemas & Tables
+show tables in dev.bronze like 'sale*' > all tables starts with sale
+
+
+-- Read CSV data from location "dbfs:/databricks-datasets/online_retail/data-001/data.csv" directly in SQL
+select * from read_files('dbfs:/databricks-datasets/online_retail/data-001/data.csv',
+	header => true,
+	format => 'csv')
+
+
+Liquid clustering improves the existing partitioning and /oRn R techniques by simplifying data layout decisions in order to optimize query performance.
+Liquid clustering
+over time.

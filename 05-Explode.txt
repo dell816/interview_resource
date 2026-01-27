@@ -1,0 +1,82 @@
+Create dataframe with array column
+
+
+array_appliance = [
+('Raja', ['TV', 'Refrigerator', "Oven', 'AC']),
+('Raghav', ['AC',"Washing machine',None]),
+('Ram', ['Grinder','TV']),
+('Ramesh', ['Refrigerator', 'TV',None]),
+('Rajesh',None)]
+
+df_app = spark.createDataFrame(data=array_appliance, schema = ['name', 'Appliances'])
+df_app.printSchema()
+display(df_app) I
+
+
+
+Create dataframe with map column
+
+
+map_brand = [
+('Raja', {'TV':'LG','Refrigerator':'Samsung',"Oven':'Philipps','AC':'Voltas'}),
+('Raghav', {'AC':'Samsung','Washing machine':'LG'}),
+('Ram', {'Grinder': 'Preethi', 'TV':"'}),
+('Ramesh', {'Refrigerator': 'LG', 'TV': 'Croma'}),
+('Rajesh', None) ]
+
+df_brand = spark.createDataFrame(data=map_brand, schema = ['name', 'Brand'])
+df_brand.printSchema()
+display(df_brand)
+
+
+
+Explode array field
+
+from pyspark.sql.functions import explode
+
+df2 = df_app.select(df_app.name, explode(df_app.Appliances))
+
+df_app.printSchema()
+display(df_app)
+
+df2.printSchema()
+display(df2)
+
+
+Explode map field
+
+from pyspark.sql. functions import explode
+
+df3 = df_brand.select(df_brand.name, explode(df_brand.Brand))
+
+df_brand.printSchema()
+display(df_brand)
+
+df3.printSchema()
+display(df3)
+
+
+Explode outer to consider NULL values
+
+
+from pyspark. sql. functions import explode_outer
+
+display(df_app.select(df_app.nage,explode_outer(df_app.Appliances)))
+
+display(df_brand.select(df_brand.name,explode_outer(df_brand.Brand)))
+
+
+
+Positional Explode
+
+
+from pyspark.sql. functions import posexplode
+
+display(df_app.select(df_app.name,posexplode(df_app.Appliances)))
+
+display(df_brand.select(df_brand.name, posexplode(df_brand.Brand)))
+
+
+
+
+

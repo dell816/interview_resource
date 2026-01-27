@@ -1,0 +1,17 @@
+This video discusses two main techniques to solve data skew in Apache Spark: Adaptive Query Execution (AQE) and Broadcast Joins.
+
+Adaptive Query Execution (AQE) (0:35)
+
+AQE, introduced in Spark 3.0, uses runtime statistics to select the most efficient query plan dynamically (0:45).
+It provides three main optimizations:
+Tuning shuffle partitions: Coalesces partitions to reduce the number of empty or unnecessary shuffle partitions, thus reducing overhead (1:21).
+Optimizing joins: Converts sort-merge joins into broadcast joins for better performance, as broadcast joins do not involve costly data shuffling across the network (2:15).
+Optimizing skewed joins: Breaks down large, skewed partitions in sort-merge joins into smaller, more manageable partitions (2:50).
+To enable AQE for skewed joins, specific Spark SQL properties (spark.sql.adaptive.enabled and spark.sql.adaptive.skewJoin.enabled) must be set to true (3:42).
+The video demonstrates a comparison of join performance with and without AQE enabled, showing how AQE reduces the number of shuffle partitions and balances task execution times (7:04).
+Broadcast Joins (10:52)
+
+Broadcast joins are considered more efficient than sort-merge joins when one of the tables is significantly smaller than the other (10:56).
+Sort-Merge Join Internal Working (11:18): Involves three costly steps: shuffle (data transfer over the network), sort, and merge. Data is partitioned based on a hash of the join key modulo the number of shuffle partitions (13:12).
+Broadcast Join Internal Working (17:12): The smaller dataset is broadcast (sent) to all executors, eliminating the need for shuffling the larger dataset. This makes broadcast joins immune to skewed input data because partitioning of the larger table can be done independently of the join keys, ensuring even distribution (18:18).
+The video illustrates a broadcast join example, demonstrating its significant performance improvement compared to sort-merge joins and AQE-enabled joins, especially when dealing with data skew (19:44).

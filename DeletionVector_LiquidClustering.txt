@@ -1,0 +1,12 @@
+Liquid Clustering
+
+helps improve performance for data with high Cardinality
+
+Deletion vector
+
+In a normal scenario, when we modify data in a particular parquet file, the whole parquet file will be rewritten. Consider we have millions rows in a file,
+and we just want to modify one record. This is an optimization issue. with deletion vector, a flag would be added to your row, and the file will not be rewritten
+and will be flagged as deleted. When you read a file, only rows will be read which marked flag not deleted. next time when you run maintenance which is
+Optimized, or predictive optimize command, the file will be rewritten. 
+
+ 

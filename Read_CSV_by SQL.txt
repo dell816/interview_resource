@@ -1,0 +1,22 @@
+Read CSV Files by SQL command
+
+-- Read CSV data from location "dbfs:/databricks-datasets/online_retail/data-001/data.csv" directly in SQL
+select * from
+read_files(
+'dbf3:/databricks-datasets/online_retail/data-001/data.csv',
+header => true,
+format => 'csv'
+)
+
+CTAS command on top of reading csv
+
+Create table bronze_sales 
+As  
+select * from
+read_files(
+'dbf3:/databricks-datasets/online_retail/data-001/data.csv',
+header => true,
+format => 'csv'
+)
+
+

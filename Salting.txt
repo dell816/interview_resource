@@ -1,0 +1,16 @@
+This video explains how salting can reduce data skew in Apache Spark by distributing data more evenly across partitions, thereby improving performance (0:03). Data skew occurs when a large amount of data is concentrated in a few partitions, leading to bottlenecks (0:50).
+
+The video covers salting in two main scenarios:
+
+Salting in Joins (7:06):
+
+The problem: When joining datasets, a skewed key (e.g., "1" appearing 1 million times) causes all records with that key to go to the same partition, making it very large and slow to process (1:00-3:09).
+The solution: Introduce a "salt" column with random numbers (e.g., 0, 1, 2) to the skewed dataset (3:16). Explode the non-skewed dataset by creating an array of possible salt values and then exploding them, ensuring all possible combinations exist for joining (8:56). The join is then performed on both the original key and the new salt column (4:11). This distributes the skewed key's records across multiple partitions, reducing the load on any single partition (4:53-6:58).
+Code Example for Joins (12:53): Demonstrates how to implement salting for joins in Spark, showing a significant improvement in data distribution after salting (16:16).
+Salting in Aggregations (16:56):
+
+The problem: Similar to joins, when performing aggregations (like counting) on a skewed key, all records for that key will end up in one partition, slowing down the aggregation process (17:31-20:06).
+The solution: Add a random "salt" to each row of the skewed dataset (20:40). Perform a two-step aggregation:
+First aggregation: Group by the original key and the salt, and then count (21:09). This distributes the heavily skewed key across multiple partitions (23:07).
+Second aggregation: Group by only the original key and sum the counts from the first aggregation (25:16). This brings together the partially aggregated results from different partitions to produce the final correct count (26:33-27:33).
+Code Example for Aggregations (27:57): Shows the implementation of the two-step aggregation process with salting to evenly distribute the skewed aggregation (28:08-28:35).

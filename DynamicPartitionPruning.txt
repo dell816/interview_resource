@@ -1,0 +1,14 @@
+This video provides a comprehensive tutorial on Dynamic Partition Pruning (DPP) in Apache Spark, building upon the concept of static partitioning.
+
+The video covers the following key areas:
+
+Static Partition Pruning (0:23): The video first explains static partition pruning, where Spark filters data by partition columns based on a known filter condition before scanning the entire dataset. This significantly reduces the amount of data scanned.
+Dynamic Partition Pruning (2:47): DPP is introduced as a more advanced and efficient technique, particularly useful in join operations.
+Problem Statement (2:50): The video illustrates DPP with a problem: analyzing user listening behavior on song release dates after a specific year (e.g., 2019-12-31).
+How it Works (8:18): Instead of scanning both datasets entirely during a join, Spark first filters one dataset (e.g., songs data) to identify relevant partition keys (e.g., release dates). These keys are then passed to the other partitioned dataset (e.g., listening activity data) at runtime, allowing Spark to scan only the necessary partitions. This "selected scan" (10:29) dramatically improves query performance by reducing data processing.
+Caveats of Dynamic Partition Pruning (12:07): For DPP to work effectively, one of the dataframes involved in the join must be partitioned on the join key (13:37). If the partitioned column is not used in the join condition, or if the data is not partitioned, DPP will not be applied, leading to full data scans.
+Code Example (14:29): A practical demonstration shows how DPP works in a Spark query plan, highlighting the "dynamic pruning expression" (18:11) in the file scan and the reuse of exchanges (19:24) to optimize the query.
+In essence, DPP optimizes Spark queries by intelligently pruning unnecessary data partitions at runtime, leading to faster data processing and improved performance.
+
+
+

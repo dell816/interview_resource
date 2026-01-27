@@ -1,0 +1,28 @@
+
+
+What is Shuffling & Shuffle Partitions? (0:14)
+
+Shuffling occurs during "wide transformations" like groupBy or join.
+Its purpose is to bring together related data that is initially spread across different nodes in a Spark cluster.
+The partitions created after this shuffling process are called shuffle partitions.
+Why are Shuffle Partitions Important? (5:07)
+
+The number of shuffle partitions directly impacts job performance and cluster utilization.
+If the number of shuffle partitions is too low compared to available cores, many cores will sit idle, leading to slow job completion times and underutilization of the cluster.
+Tuning Shuffle Partitions - Scenario 1: Large Data per Shuffle Partition (7:45)
+
+This scenario occurs when the default number of shuffle partitions (often 200) is used with a large amount of shuffled data (e.g., 300 GB).
+This results in each shuffle partition holding a very large amount of data (e.g., 1.5 GB), which is inefficient as the optimal size is 1-200 MB.
+Solution: Increase the number of shuffle partitions to distribute the data more effectively across available cores, aiming for the optimal partition size.
+Tuning Shuffle Partitions - Scenario 2: Small Data per Shuffle Partition (12:29)
+
+This scenario occurs when a small amount of data is shuffled across a large number of default shuffle partitions.
+This results in very small data per shuffle partition (e.g., 250 KB), leading to under-utilized cores and overhead.
+Solutions:
+Reduce the number of shuffle partitions to ensure each partition falls within the optimal size range (e.g., 10 MB per partition).
+Utilize all available cores by setting the number of shuffle partitions equal to the total number of cores, giving each core a manageable amount of data to process.
+How to Tune Slow Running Jobs? (17:29)
+
+Even after adjusting shuffle partitions, jobs might run slow due to issues like data skew.
+Data skew occurs when a few partitions are heavily loaded while others are idle, often due to a specific key having a disproportionately large amount of data.
+Solutions for data skew: Consider using Adaptive Query Execution (AQE) or salting, which are discussed in other videos by the creator.

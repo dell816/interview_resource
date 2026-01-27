@@ -1,0 +1,21 @@
+This video provides a comprehensive tutorial on data skew in Apache Spark, a common issue in big data processing that can significantly degrade performance.
+
+Here's a breakdown of the key takeaways:
+
+What is Data Skew? Data skew refers to the uneven distribution of data across partitions, meaning some partitions contain significantly more data than others (0:15).
+How to Identify Data Skew:
+Spark jobs getting stuck at the last task, taking an abnormally long time to complete (0:40).
+Examining the event timeline in Spark UI, where one partition shows a much longer executor computing time (1:20).
+Observing a huge gap between the minimum and maximum task processing times in the summary metrics for your tasks (2:01).
+When and Why Does Data Skew Happen?
+Data skew occurs when data is not evenly distributed across partitions, leading to some cores sitting idle while one core is heavily overloaded (2:28).
+This results in uneven resource utilization and paying for idle resources (3:55).
+Operations that Cause Data Skew:
+Aggregation operations (e.g., groupBy) where certain keys have a much higher count of records (4:27). For example, grouping by country where one country has significantly more transactions (4:40).
+Join operations where the join key has a highly uneven distribution of values (5:28). For instance, joining on a product_ID where one product_ID appears far more frequently (5:51).
+Why is Data Skew Bad?
+Increased job completion time, leading to longer development and debugging cycles (6:18).
+Uneven utilization of resources, meaning you pay for resources that are not actively working (6:47).
+Potential for out-of-memory errors or data spills, which are costly operations that involve writing data to disk (7:09).
+Code Example to Simulate Skewed Dataset: The video demonstrates how to simulate both a uniform dataset (8:02) and a skewed dataset (9:05) using PySpark, showing how to identify the uneven distribution of rows per partition. It also illustrates a skewed join scenario by examining the distribution of a join key (customer ID) before performing the join and observing the skewed partition in the Spark UI (9:49).
+Solutions for Data Skew: The video briefly mentions solutions like AQE (Adaptive Query Execution), broadcast join, and salting, which are discussed in detail in other videos in the creator's playlist 

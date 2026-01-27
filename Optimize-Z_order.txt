@@ -1,0 +1,31 @@
+Note
+
+While using Databricks Runtime, to control the output file size, set the Spark configuration
+spark.databricks.delta.optimize.maxFileSize The default value is 1073741824, which sets the size to 1 GB.
+Specifying the value 104857600 sets the file size to 100 MB.
+
+Example: you want to optimize your sales_order table in 64MB files:
+
+spark.conf.set("spark.databricks.delta.optimize.maxFileSize ",64*1024*8)
+
+%sql
+OPTIMIZE sales_order ZORDER BY(Invoice_num)
+
+
+If you run the below query, what happens in the background is: Delta has got all the invoice numbers arranged in sequence number and 
+then distributed in different part files.
+ 
+%sql
+
+select min(invoiceno) mn, max(invoiceno) mx, metadata.file_name f_n --show the parquet files name 
+from sales_delta
+group by metadata.file_name
+order by min(invoiceno)
+
+Result: 
+
+mn      mx      f_n
+-----------------------------------------------------------------------------
+536365  539259  part-00000-410bc7f1-2563-4a5c-ae69-a78e3e07de41-c000.snappy.parquet
+539259  541784  part-00001-54d9343c-6d45-4472-850b-7efdc712106d-c000.snappy.parqurt
+
