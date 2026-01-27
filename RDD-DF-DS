@@ -1,0 +1,131 @@
+1️⃣RDD (Resilient Distributed Dataset)
+
+Think of RDD as: raw distributed data
+	•	Oldest Spark data structure
+	•	A collection of objects distributed across many machines
+	•	Very low-level (you control everything)
+	•	No schema (Spark doesn’t know column names or types)
+
+Pros
+	•	Full control
+	•	Works with unstructured data
+
+Cons
+	•	Slow
+	•	No optimizations
+	•	Hard to write and maintain
+
+👉 Rarely used today
+
+2️⃣DataFrame
+
+Think of DataFrame as: a distributed table (like SQL table or Excel)
+	•	Most commonly used
+	•	Has columns and schema
+	•	Spark knows data types
+	•	Uses Catalyst Optimizer → very fast
+
+Pros
+	•	Easy to use
+	•	Very fast
+	•	Works with SQL
+	•	Best for big data processing
+
+Cons
+	•	Less type safety (errors may show at runtime)
+
+👉 Best choice for most Spark jobs
+
+⸻
+
+3️⃣
+Dataset
+
+Think of Dataset as: DataFrame + type safety
+	•	Available mainly in Scala & Java
+	•	Combines RDD’s type safety with DataFrame’s performance
+	•	You work with strongly-typed objects
+
+Pros
+	•	Compile-time error checking
+	•	Fast like DataFrame
+
+Cons
+	•	Not really supported in Python
+	•	More complex
+
+👉 Used mostly by Scala developers
+
+⸻
+
+🔑 Very Simple Comparison Table
+
+🎯 When to use what?
+	•	RDD → Almost never (special cases only)
+	•	DataFrame → ✅ 99% of real-world Spark jobs
+	•	Dataset → When using Scala & want type safety
+
+⸻
+
+If you want, I can also:
+	•	Explain this with real-life analogy
+	•	Explain it specifically for Databricks
+	•	Compare DataFrame vs SQL
+	•	Give interview-style answers
+
+what “control everything” really means.
+
+“RDD is very low-level” means:
+
+With RDD, Spark does NOT help you much.
+You must manually handle things that Spark automatically does for DataFrames/Datasets.
+
+⸻
+
+1️⃣ You control how data is processed (step by step)
+
+With RDDs, you explicitly write functions like map, flatMap, reduce, 👉 Spark does not understand what your data represents.
+It only executes your code line by line.
+2️⃣ No schema → Spark doesn’t know your data structure
+
+RDD has no columns, no types, no metadata.
+Spark does NOT know:
+	•	Which field is age
+	•	Which field is name
+	•	If a value is int or string
+
+👉 You must remember and handle everything yourself
+3️⃣ No query optimization (you decide everything)
+
+DataFrames use Catalyst Optimizer:
+	•	Reorders operations
+	•	Pushes filters early
+	•	Chooses efficient execution plans
+
+RDDs ❌ do NONE of Spark:
+	•	Does NOT optimize
+	•	Does NOT rearrange
+	•	Just runs exactly what you wrote
+
+👉 If it’s inefficient, that’s your problem
+
+⸻
+
+4️⃣ You control memory & performance decisions
+
+With RDDs, you must manually decide:
+	•	When to cache() or persist()
+	•	Partitioning strategy
+	•	Shuffles and joins logic
+
+If you do it wrong:
+	•	Job is slow
+	•	Memory spills
+	•	Cluster crashes
+
+⸻
+
+5️⃣ Errors happen at runtime, not earlier
+
+Because Spark doesn’t know data types:
+
