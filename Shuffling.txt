@@ -1,4 +1,27 @@
+What is Shuffling? (0:11)
 
+Shuffling is the process of redistributing data across different partitions to perform transformations like group by or join (0:11).
+It ensures that all related data needed for a computation is collocated on the same partition (0:18).
+Operations such as Group by, Join, Repartition, and Distinct can trigger shuffling (0:56).
+Challenges with Shuffling (1:01)
+
+Shuffling involves moving data between partitions and nodes, which can be resource-intensive and impact performance due to sorting and network transfers (1:01).
+Tips to Reduce Shuffling (1:14)
+
+Optimize Data Partitioning: Properly partition data using strategies like hash partitioning or range partitioning to distribute data evenly and collocate related data, reducing movement (1:17).
+Avoid Wide Transformations: Prefer narrow transformations (operations that can be performed locally) and use functions like Reduce by key or Aggregate by key over Group by key to perform local aggregations before shuffling (1:58).
+Efficient Use of Cache and Persist: Store frequently accessed intermediate results in memory using caching or persisting to avoid repeated reading and reshuffling of data (2:55).
+Leverage Skew Handling Techniques: Address data skew (where some partitions are much larger than others) using techniques like salting (adding a random prefix to skewed keys) or custom partitioners for even data distribution (3:39).
+Advantages of Shuffling (4:43)
+
+Enables complex operations like aggregations, joins, and sorting that require data reorganization (4:47).
+Improves data locality for subsequent operations once the data is well-partitioned (5:05).
+Disadvantages of Shuffling (5:22)
+
+High resource consumption: It's resource-intensive, involving significant network I/O, memory usage, and CPU (5:26).
+Increased complexity and potential for skew: Adds complexity to the data processing pipeline and can lead to imbalanced workloads and degraded performance due to data skew (5:44).
+
+------------------------------------------------------------
 
 What is Shuffling & Shuffle Partitions? (0:14)
 
@@ -25,4 +48,5 @@ How to Tune Slow Running Jobs? (17:29)
 
 Even after adjusting shuffle partitions, jobs might run slow due to issues like data skew.
 Data skew occurs when a few partitions are heavily loaded while others are idle, often due to a specific key having a disproportionately large amount of data.
+
 Solutions for data skew: Consider using Adaptive Query Execution (AQE) or salting, which are discussed in other videos by the creator.
