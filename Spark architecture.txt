@@ -1,0 +1,15 @@
+Spark architecture is a distributed computing framework designed for fast and efficient large-scale data processing (0:20-0:24).
+
+Here is a breakdown of the Spark architecture:
+
+Driver (0:40): The master node responsible for orchestrating the execution of tasks, managing the cluster, maintaining metadata, and distributing work.
+Worker Nodes (0:52): These are the slave nodes that execute the actual tasks. Each worker node runs one or more executors.
+Executors (0:55): Processes on worker nodes responsible for running individual tasks and managing data storage.
+Cores (3:32): Each core within an executor can operate independently, allowing an executor to handle multiple parallel tasks simultaneously.
+The video also explains the Spark cycle:
+
+Application Submission (1:07): The user submits an application, and the driver initiates a Spark session.
+DAG (Directed Acyclic Graph) (1:13): Creates a logical plan for operations, optimizing and scheduling execution.
+Jobs, Stages, and Tasks (1:30): The DAG scheduler divides the logical plan into jobs, which are broken down into stages, and then into individual tasks.
+Resource Allocation (2:19): The driver requests resources from the cluster manager.
+Task Execution (2:56): Nodes execute tasks using executors and return results to the driver.
