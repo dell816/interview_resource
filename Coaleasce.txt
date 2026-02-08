@@ -1,0 +1,12 @@
+what Coalesce in Spark is, a method used to decrease the number of partitions in a data frame or RDD without shuffling data across the entire cluster (0:12). This makes it a more efficient operation compared to repartition when the goal is to reduce partitions without significant data movement (0:22-0:31).
+
+Key takeaways from the video:
+
+Definition and Functionality (0:12-0:55): Coalesce consolidates existing partitions within the same executors, merging them without redistributing data across the network. For example, six partitions can be reduced to four by merging two partitions within each executor (0:33-0:55).
+Narrow Transformation (0:57-1:27): Coalesce is considered a narrow transformation, meaning it operates on a per-partition basis and doesn't require data shuffling between partitions, allowing it to complete within the same stage (1:00-1:18).
+When to Use Coalesce (1:31-2:13):
+Reducing Partitions: It's useful when the current number of partitions is unnecessarily high, leading to inefficient resource utilization or memory overhead (1:36-1:51).
+Memory Optimization: It helps optimize memory usage for large datasets with too many partitions, especially when the data fits comfortably in memory but is spread across too many partitions (1:53-2:13).
+When Not to Use Coalesce (2:16-2:54):
+Data Skew Concerns: Avoid it if data skew is an issue, as Coalesce does not ensure even data distribution, potentially exacerbating skew and leading to uneven workload distribution (2:19-2:36).
+Increasing Partitions: Do not use Coalesce to increase the number of partitions for better parallelism; instead, use repartition to evenly redistribute data across a higher number of partitions
