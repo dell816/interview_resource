@@ -1,0 +1,11 @@
+Databricks COPY INTO command, a SQL utility for ingesting data into a Delta Lakehouse.
+
+The video covers the following:
+
+What is COPY INTO: The command loads various file formats (CSV, JSON, Avro, ORC, text, binary) into Delta Lake. A key benefit is its idempotent behavior (0:20-0:47), meaning files are processed exactly once, even if the command runs multiple times. It also supports schema inference, mapping, and evolution (0:58-1:03).
+How to use COPY INTO: The presenter demonstrates how to use the command by creating a managed volume and input folder in Databricks (1:26-3:06).
+Placeholder tables: The video explains how to create empty Delta tables without defining a schema upfront (3:13-4:09). The COPY INTO command can then infer and create the schema on the fly during data loading (4:09-7:35).
+Metadata maintenance: COPY INTO maintains metadata in the Delta log (8:08-9:29), ensuring that files are processed exactly once and pipelines are idempotent.
+Transforming data while loading: The video shows how to use a SELECT statement within the COPY INTO command to transform or select specific columns from the source data during ingestion (9:33-12:59).
+Incremental processing: The presenter demonstrates that COPY INTO processes data incrementally, only loading new files added to the source location (13:02-13:58).
+The video concludes by noting that while COPY INTO is suitable for thousands of files, Databricks recommends using Autoloaders for millions of files or complex directory structures (14:07-14:28), 
