@@ -1,0 +1,14 @@
+Unity Catalog, an open-source, unified governance solution for Databricks (0:28). It highlights how Unity Catalog centralizes security, auditing, lineage, and data discovery across all Databricks workspaces (1:03).
+
+Here's a breakdown of the key concepts:
+
+Unified Governance (0:48): Unity Catalog allows you to define security and governance policies once and apply them everywhere across your Databricks environment.
+Centralized Management (1:40): Unlike managing individual Databricks workspaces, Unity Catalog enables centralized management of users, metastores, and compute resources.
+Object Model (2:06):
+Metastore (2:16): This is the top-level object, used to maintain metadata (data about data), including schema, access control lists, and permissions. It's recommended to have only one metastore per region (2:56).
+Catalog (3:38): Catalogs are data securable objects that maintain data assets, whether structured, unstructured, or semi-structured.
+Schemas (4:04): Defined within catalogs, schemas organize data assets.
+Tables and Views (4:10): Used for maintaining structured data.
+Volumes (4:18): File systems that can store any type of data (structured, unstructured, semi-structured) and are also governed by Unity Catalog.
+ML Models and Functions (4:42): These can also be governed using Unity Catalog permissions.
+Three-Level Namespace (5:01): With Unity Catalog, data assets are accessed using a "catalog.schema.table" naming convention (e.g., dev.bronze.sales) (5:11). This ensures data security based on the defined catalog, schema, and table
