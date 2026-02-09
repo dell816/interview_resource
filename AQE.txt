@@ -1,17 +1,23 @@
 
 Adaptive Query Execution in Spark
 
-Adaptive Query Execution (AQE) is an advanced optimization technique in Apache Spark SQL that dynamically adjusts query execution plans during runtime based on accurate runtime statistics. This feature, introduced in Spark 3.0 and enabled by default since Spark 3.2, addresses inefficiencies caused by static query planning, such as outdated or inaccurate statistics, data skew, and suboptimal partitioning.
+Adaptive Query Execution (AQE) is an advanced optimization technique in Apache Spark SQL that dynamically adjusts 
+query execution plans during runtime based on accurate runtime statistics. This feature, introduced in Spark 3.0 and enabled by default
+since Spark 3.2, addresses inefficiencies caused by static query planning, such as outdated or inaccurate statistics, data skew, and suboptimal partitioning.
 
 Key Features of AQE
 
-Dynamic Partition Coalescing: AQE combines small shuffle partitions into larger ones during runtime to reduce overhead from scheduling and task setup. This improves I/O throughput and cluster resource utilization.
+Dynamic Partition Coalescing: AQE combines small shuffle partitions into larger ones during runtime to reduce overhead from scheduling and task setup.
+This improves I/O throughput and cluster resource utilization.
 
-Dynamic Join Strategy Switching: Based on runtime statistics, AQE can switch from a sort-merge join to a broadcast hash join if one side of the join is small enough to fit in memory. This reduces shuffle and network overhead.
+Dynamic Join Strategy Switching: Based on runtime statistics, AQE can switch from a sort-merge join to a broadcast hash join
+if one side of the join is small enough to fit in memory. This reduces shuffle and network overhead.
 
-Skew Join Optimization: AQE detects data skew in partitions and splits skewed partitions into smaller sub partitions. This ensures balanced task execution and avoids straggler tasks that slow down query performance.
+Skew Join Optimization: AQE detects data skew in partitions and splits skewed partitions into smaller sub partitions.
+This ensures balanced task execution and avoids straggler tasks that slow down query performance.
 
-Empty Relation Propagation: AQE dynamically detects and eliminates empty relations during query execution, optimizing resource usage and reducing unnecessary computations.
+Empty Relation Propagation: AQE dynamically detects and eliminates empty relations during query execution,\
+optimizing resource usage and reducing unnecessary computations.
 
 How AQE Works
 
@@ -42,4 +48,5 @@ To enable AQE for skewed joins, specific Spark SQL properties (spark.sql.adaptiv
 Broadcast joins are considered more efficient than sort-merge joins when one of the tables is significantly smaller than the other (10:56).
 Sort-Merge Join Internal Working (11:18): Involves three costly steps: shuffle (data transfer over the network), sort, and merge. Data is partitioned based on a hash of the join key modulo the number of shuffle partitions (13:12).
 Broadcast Join Internal Working (17:12): The smaller dataset is broadcast (sent) to all executors, eliminating the need for shuffling the larger dataset. This makes broadcast joins immune to skewed input data because partitioning of the larger table can be done independently of the join keys, ensuring even distribution (18:18).
+
 
