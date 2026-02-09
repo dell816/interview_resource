@@ -1,6 +1,7 @@
 Liquid Clustering
 
 helps improve performance for data with high Cardinality
+https://delta.io/blog/liquid-clustering/
 
 Deletion vector
 
@@ -10,3 +11,4 @@ and will be flagged as deleted. When you read a file, only rows will be read whi
 Optimized, or predictive optimize command, the file will be rewritten. 
 
  
+
