@@ -1,5 +1,9 @@
 Liquid Clustering
 
+Liquid clustering in Delta Lake is a dynamic data layout optimization that automatically reorganizes files based on query patterns instead of fixed partitions. It improves query performance and reduces maintenance by continuously adapting clustering as data and access patterns change.
+
+In the background, Delta Lake tracks query access patterns and file-level statistics, then incrementally rewrites small or poorly organized files to colocate related data. This happens automatically during writes or OPTIMIZE operations, without rigid partitions or full table rewrites.
+
 helps improve performance for data with high Cardinality
 https://delta.io/blog/liquid-clustering/
 
@@ -11,4 +15,5 @@ and will be flagged as deleted. When you read a file, only rows will be read whi
 Optimized, or predictive optimize command, the file will be rewritten. 
 
  
+
 
